@@ -1,8 +1,6 @@
 ## Hi there 👋
 
-## 我的项目
-
-### 工作相关项目
+### KT板飞机设计图
 - [项目 1](https://github.com/username/project1) - 项目描述
 - [项目 2](https://github.com/username/project2) - 项目描述
 
