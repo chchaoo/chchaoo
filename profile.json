@@ -1,0 +1,92 @@
+{
+  "timezone": "America/Los_Angeles",
+
+  "banner": {
+    "greeting": "Hi, I'm",
+    "name": "chchaoo",
+    "tagline": "I design foam-board RC planes and write small, careful tools.",
+    "tagline_zh": "做 KT 板航模，也写认真的小工具。"
+  },
+
+  "interests": "✈️ Foam-board RC planes &nbsp;·&nbsp; 🛠️ Small tools for Windows &nbsp;·&nbsp; 🎮 The occasional game",
+
+  "sections": {
+    "projects": "📌 Projects · 项目",
+    "more_projects": "🗂️ More projects · 更多项目",
+    "planes": "✈️ Plane plans at a glance · 飞机图纸一览",
+    "timeline": "🛤️ Build log · 制作历程",
+    "releases": "🚀 Latest releases · 最新发布",
+    "numbers": "📊 By the numbers · 数据",
+    "contributions": "🐍 Contributions · 贡献"
+  },
+
+  "charts": {
+    "stats_title": "{login} on GitHub",
+    "stars_title": "Star history",
+    "stars_subtitle": "stars on all {login} repositories",
+    "timeline_title": "Build log",
+    "timeline_subtitle": "制作历程 · what I have made, in order"
+  },
+
+  "footer": "The pictures on this page are redrawn every six hours by <a href=\"scripts/build.mjs\">a small script</a> in this repository, from my public GitHub data. 本页图表由仓库里的脚本每六小时根据公开数据重新绘制。",
+
+  "projects": {
+    "sha256-folder-verify": {
+      "title": "Folder verify",
+      "title_zh": "文件夹校验工具",
+      "kind": "tool",
+      "image": "assets/sha256-folder-verify.jpg",
+      "description": "Copied a folder? Prove the copy is byte-for-byte identical. One double-clickable `.bat`: SHA-256 of every file, per-file progress, resumable.",
+      "zh": "复制完文件夹，确认副本和原件逐字节一致。一个双击就能用的 `.bat`。",
+      "badges": [["Windows", "", "0078D6"], ["PowerShell", "", "5391FE"]]
+    },
+    "RCPlane-SU27": {
+      "title": "Su-27 foam-board plane",
+      "title_zh": "KT 板苏-27",
+      "kind": "plane",
+      "image": "assets/su27.jpg",
+      "description": "A Su-27 cut from one sheet of 5 mm foam board, ducted-fan or propeller version. About ¥3 of board and 15 minutes to build.",
+      "zh": "一张 KT 板切出来的苏-27，涵道版 / 螺旋桨版，板材约 3 元，15 分钟拼好。",
+      "badges": [["plans", "DXF", "e5484d"], ["3D part", "STL", "f0883e"], ["CC BY-NC-SA", "4.0", "lightgrey"]]
+    },
+    "Modified-FTVersaWing": {
+      "title": "Versa Wing, modified",
+      "title_zh": "改进版 FT 飞翼",
+      "kind": "plane",
+      "image": "assets/versa-wing.jpg",
+      "description": "A flying wing based on the Flite Test Versa Wing, with a laser-cut wooden bay for FPV gear. Tractor or pusher.",
+      "zh": "改进版 FT 叛逆者飞翼，带木质 FPV 机舱，前拉 / 尾推任选。",
+      "badges": [["plans", "DXF", "e5484d"], ["FPV", "ready", "2f81f7"], ["CC BY-NC-SA", "4.0", "lightgrey"]]
+    },
+    "MazeSolver-Astar": {
+      "title": "A* maze game",
+      "title_zh": "A* 迷宫游戏",
+      "kind": "game",
+      "image": "assets/maze.jpg",
+      "description": "Guide the sheep home through a random maze in 40 steps. Stuck? The Help button asks A\\* for the way.",
+      "zh": "带小羊走出随机迷宫，走不出去就让 A\\* 算法帮你找路。",
+      "badges": [["EasyX", "", "00599C"], ["Visual Studio", "2022", "5C2D91"]]
+    }
+  },
+
+  "planes": {
+    "columns": ["Material · 材料", "Sheet · 板材", "Board cost · 成本", "Build time · 拼装", "Versions · 版本"],
+    "rows": [
+      { "repo": "RCPlane-SU27", "name": "Su-27", "cells": ["5 mm foam board", "1100 / 1200 × 900 mm", "≈ ¥3", "≈ 15 min", "EDF · propeller"] },
+      { "repo": "Modified-FTVersaWing", "name": "FT Versa Wing, modified", "cells": ["5 mm foam board + 2 mm plywood", "1200 × 900 mm", "≈ ¥5", "≈ 30 min", "tractor · pusher · FPV"] }
+    ],
+    "note": "All plans are DXF files in millimetres, ready for a laser cutter or for printing at 1:1.",
+    "note_zh": "所有图纸都是以毫米为单位的 DXF 文件，可以直接激光切割，也可以 1:1 打印后手工切。"
+  },
+
+  "timeline": {
+    "max": 12,
+    "hide": ["created:sha256-folder-verify"],
+    "milestones": [
+      { "date": "2026-09-12", "label": "Folder verify v2", "zh": "拖拽式批处理", "kind": "tool" },
+      { "date": "2026-09-13", "label": "v3 PowerShell engine", "zh": "结果从此正确", "kind": "tool" },
+      { "date": "2026-09-18", "label": "v7 disk-aware reads", "zh": "按物理磁盘调度", "kind": "tool" },
+      { "date": "2026-09-24", "label": "v12 per-file progress", "zh": "单文件进度", "kind": "tool" }
+    ]
+  }
+}

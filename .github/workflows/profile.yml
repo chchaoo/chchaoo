@@ -1,22 +1,26 @@
 name: Profile
 
-# Redraws the images on the profile page every day:
-#   - the hand-drawn charts (scripts/build.mjs): overview, star history, build log
+# Rebuilds the profile page from profile.json and public GitHub data:
+#   - README.md (project cards follow the pinned repositories)
+#   - the animated banner and the hand-drawn charts (scripts/build.mjs)
 #   - the contribution snake (Platane/snk)
-# and refreshes the "Latest releases" list in README.md.
 #
-# The images are published to the `output` branch, which is replaced on
-# every run, so they never pile up in the history of `main`.
+# The pictures are published to the `output` branch, which is replaced on
+# every run, so they never pile up in the history of `main`. README.md is
+# committed only when it actually changed.
 
 on:
   schedule:
-    - cron: "17 2 * * *"   # every day at 02:17 UTC
+    # Every six hours, at 17 minutes past 00, 06, 12 and 18 UTC:
+    # 5:17 and 11:17, am and pm, in Los Angeles (an hour earlier in winter).
+    - cron: "17 */6 * * *"
   workflow_dispatch:
   push:
     branches: [main]
     paths:
+      - "profile.json"
       - "scripts/**"
-      - "assets/fonts/**"
+      - "assets/**"
       - ".github/workflows/profile.yml"
 
 permissions:
@@ -27,7 +31,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  images:
+  page:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -36,7 +40,7 @@ jobs:
         with:
           node-version: 22
 
-      - name: Draw the charts and refresh the release list
+      - name: Build the page and the pictures
         run: node scripts/build.mjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,23 +53,23 @@ jobs:
             dist/github-snake.svg
             dist/github-snake-dark.svg?palette=github-dark
 
-      - name: Publish the images to the output branch
+      - name: Publish the pictures to the output branch
         uses: crazy-max/ghaction-github-pages@v5
         with:
           target_branch: output
           build_dir: dist
           jekyll: false
-          commit_message: Redraw profile images
+          commit_message: Redraw profile pictures
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit the release list if it changed
+      - name: Commit README.md if it changed
         run: |
           if git diff --quiet -- README.md; then
-            echo "Release list unchanged."
+            echo "README.md unchanged."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Update the latest releases" -- README.md
+          git commit -m "Update the profile page" -- README.md
           git push
