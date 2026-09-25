@@ -59,15 +59,21 @@ query($login: String!) {
   }
 }`;
 
-// When each star was given. The workflow's own token may not read other
-// repositories' stargazers through GraphQL, but the list is public, and
-// the REST API returns it with the date of every star.
+// When each star was given.
+//
+// The workflow's own token only covers this repository, so GitHub refuses
+// it for the stargazers of the other ones, through GraphQL and REST alike.
+// The list is public, though, so a refused request is simply repeated
+// without the token. Every date that was read is also kept in stars.json
+// next to the images, and a later run that cannot reach the API uses
+// those instead of drawing a history with the stars missing.
 async function starDates(repo) {
   const dates = [];
   for (let page = 1; dates.length < repo.stargazerCount && page <= 50; page++) {
-    const res = await fetch(`https://api.github.com/repos/${LOGIN}/${repo.name}/stargazers?per_page=100&page=${page}`, {
-      headers: { Authorization: `bearer ${TOKEN}`, Accept: 'application/vnd.github.star+json', 'User-Agent': `${LOGIN}-profile` },
-    });
+    const url = `https://api.github.com/repos/${LOGIN}/${repo.name}/stargazers?per_page=100&page=${page}`;
+    const headers = { Accept: 'application/vnd.github.star+json', 'User-Agent': `${LOGIN}-profile` };
+    let res = await fetch(url, { headers: { ...headers, Authorization: `bearer ${TOKEN}` } });
+    if (res.status === 401 || res.status === 403) res = await fetch(url, { headers });
     if (!res.ok) throw new Error(`stargazers of ${repo.name}: HTTP ${res.status}`);
     const list = await res.json();
     if (!list.length) break;
@@ -76,14 +82,28 @@ async function starDates(repo) {
   return dates.sort();
 }
 
+async function previousStarDates() {
+  try {
+    const res = await fetch(`https://raw.githubusercontent.com/${LOGIN}/${LOGIN}/output/stars.json`);
+    return res.ok ? await res.json() : {};
+  } catch { return {}; }
+}
+
 async function loadProfile() {
   const { user } = await graphql(PROFILE_QUERY, { login: LOGIN });
+  const saved = await previousStarDates();
+  user.starDatesMissing = false;
   for (const repo of user.repositories.nodes) {
     repo.starDates = [];
     if (!repo.stargazerCount) continue;
     try { repo.starDates = await starDates(repo); }
-    catch (e) { console.warn(`warning: ${e.message}, its stars are left out of the history`); }
+    catch (e) {
+      repo.starDates = saved[repo.name] || [];
+      console.warn(`warning: ${e.message}; using ${repo.starDates.length} saved dates`);
+    }
+    if (repo.starDates.length < repo.stargazerCount) user.starDatesMissing = true;
   }
+  user.savedStarDates = Object.fromEntries(user.repositories.nodes.filter((r) => r.starDates.length).map((r) => [r.name, r.starDates]));
   return user;
 }
 
@@ -345,6 +365,9 @@ function drawStars(user) {
         + `<path class="ink" d="${sketchLine(r, ex - 6, ey + 6, ex - 15, ey + 4, 0.3)}${sketchLine(r, ex - 6, ey + 6, ex - 9, ey + 15, 0.3)}"/>`;
   if (!series.length) body += `<path d="${wobbly(r, [[X(t0), Y(0)], [X(t1), Y(0)]], 1)}" style="fill:none;stroke:#2f81f7;stroke-width:2.6"/>`;
 
+  if (user.starDatesMissing) {
+    body += `<text class="muted" x="${R}" y="${H - 8}" text-anchor="end" style="font-size:12px">some star dates could not be loaded today</text>`;
+  }
   return svg(W, H, `Star history: ${totalStars} stars in total`, body);
 }
 
@@ -421,6 +444,7 @@ const user = await loadProfile();
 mkdirSync(OUT, { recursive: true });
 writeFileSync(join(OUT, 'stats.svg'), drawStats(user));
 writeFileSync(join(OUT, 'stars.svg'), drawStars(user));
+writeFileSync(join(OUT, 'stars.json'), JSON.stringify(user.savedStarDates, null, 1) + '\n');
 writeFileSync(join(OUT, 'timeline.svg'), drawTimeline());
 updateReadme(user);
 console.log(`Wrote stats.svg, stars.svg and timeline.svg to ${OUT}`);
