@@ -82,9 +82,14 @@ async function starDates(repo) {
   return dates.sort();
 }
 
+// Read through the API rather than raw.githubusercontent.com: the token
+// may read this repository, and the API is not behind a cache that could
+// hand back yesterday's file.
 async function previousStarDates() {
   try {
-    const res = await fetch(`https://raw.githubusercontent.com/${LOGIN}/${LOGIN}/output/stars.json`);
+    const res = await fetch(`https://api.github.com/repos/${LOGIN}/${LOGIN}/contents/stars.json?ref=output`, {
+      headers: { Authorization: `bearer ${TOKEN}`, Accept: 'application/vnd.github.raw+json', 'User-Agent': `${LOGIN}-profile` },
+    });
     return res.ok ? await res.json() : {};
   } catch { return {}; }
 }
