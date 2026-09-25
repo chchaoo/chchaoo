@@ -93,18 +93,6 @@ All plans are DXF files in millimetres, ready for a laser cutter or for printing
 
 <img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stars.svg" width="100%" alt="Star history of all repositories">
 
-## 🧰 What I work with · 常用工具
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/chchaoo/chchaoo/main/assets/skills-dark.svg">
-  <img src="https://raw.githubusercontent.com/chchaoo/chchaoo/main/assets/skills-light.svg" height="48" alt="C++, PowerShell, Windows, Visual Studio, Git, GitHub, Markdown">
-</picture>
-
-![Laser cutting](https://img.shields.io/badge/Laser%20cutting-DXF-e5484d?style=flat-square)
-![3D printing](https://img.shields.io/badge/3D%20printing-STL-f0883e?style=flat-square)
-![Foam board](https://img.shields.io/badge/Foam%20board-KT%E6%9D%BF-2ea44f?style=flat-square)
-![Hot glue](https://img.shields.io/badge/Hot%20glue-lots%20of%20it-d4a72c?style=flat-square)
-
 ## 🐍 Contributions · 贡献
 
 <picture>
