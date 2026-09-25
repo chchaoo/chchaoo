@@ -54,35 +54,35 @@ query($login: String!) {
         languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
           edges { size node { name color } }
         }
-        stargazers(first: 100, orderBy: { field: STARRED_AT, direction: ASC }) {
-          pageInfo { hasNextPage endCursor }
-          edges { starredAt }
-        }
       }
     }
   }
 }`;
 
-const STARS_QUERY = `
-query($owner: String!, $name: String!, $after: String) {
-  repository(owner: $owner, name: $name) {
-    stargazers(first: 100, after: $after, orderBy: { field: STARRED_AT, direction: ASC }) {
-      pageInfo { hasNextPage endCursor }
-      edges { starredAt }
-    }
+// When each star was given. The workflow's own token may not read other
+// repositories' stargazers through GraphQL, but the list is public, and
+// the REST API returns it with the date of every star.
+async function starDates(repo) {
+  const dates = [];
+  for (let page = 1; dates.length < repo.stargazerCount && page <= 50; page++) {
+    const res = await fetch(`https://api.github.com/repos/${LOGIN}/${repo.name}/stargazers?per_page=100&page=${page}`, {
+      headers: { Authorization: `bearer ${TOKEN}`, Accept: 'application/vnd.github.star+json', 'User-Agent': `${LOGIN}-profile` },
+    });
+    if (!res.ok) throw new Error(`stargazers of ${repo.name}: HTTP ${res.status}`);
+    const list = await res.json();
+    if (!list.length) break;
+    dates.push(...list.map((x) => x.starred_at));
   }
-}`;
+  return dates.sort();
+}
 
 async function loadProfile() {
   const { user } = await graphql(PROFILE_QUERY, { login: LOGIN });
   for (const repo of user.repositories.nodes) {
-    let page = repo.stargazers;
-    repo.starDates = page.edges.map((e) => e.starredAt);
-    while (page.pageInfo.hasNextPage) {
-      const data = await graphql(STARS_QUERY, { owner: LOGIN, name: repo.name, after: page.pageInfo.endCursor });
-      page = data.repository.stargazers;
-      repo.starDates.push(...page.edges.map((e) => e.starredAt));
-    }
+    repo.starDates = [];
+    if (!repo.stargazerCount) continue;
+    try { repo.starDates = await starDates(repo); }
+    catch (e) { console.warn(`warning: ${e.message}, its stars are left out of the history`); }
   }
   return user;
 }
