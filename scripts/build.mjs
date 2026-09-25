@@ -92,16 +92,19 @@ async function previousStarDates() {
 async function loadProfile() {
   const { user } = await graphql(PROFILE_QUERY, { login: LOGIN });
   const saved = await previousStarDates();
-  user.starDatesMissing = false;
   for (const repo of user.repositories.nodes) {
     repo.starDates = [];
     if (!repo.stargazerCount) continue;
     try { repo.starDates = await starDates(repo); }
     catch (e) {
-      repo.starDates = saved[repo.name] || [];
+      repo.starDates = [...(saved[repo.name] || [])];
       console.warn(`warning: ${e.message}; using ${repo.starDates.length} saved dates`);
     }
-    if (repo.starDates.length < repo.stargazerCount) user.starDatesMissing = true;
+    // The count itself always comes from GraphQL. Stars the saved dates
+    // do not know yet arrived since the last run, which is at most a day
+    // ago, so they are dated today. Stars taken back are dropped from the end.
+    while (repo.starDates.length < repo.stargazerCount) repo.starDates.push(NOW.toISOString());
+    repo.starDates = repo.starDates.slice(0, repo.stargazerCount);
   }
   user.savedStarDates = Object.fromEntries(user.repositories.nodes.filter((r) => r.starDates.length).map((r) => [r.name, r.starDates]));
   return user;
@@ -365,9 +368,6 @@ function drawStars(user) {
         + `<path class="ink" d="${sketchLine(r, ex - 6, ey + 6, ex - 15, ey + 4, 0.3)}${sketchLine(r, ex - 6, ey + 6, ex - 9, ey + 15, 0.3)}"/>`;
   if (!series.length) body += `<path d="${wobbly(r, [[X(t0), Y(0)], [X(t1), Y(0)]], 1)}" style="fill:none;stroke:#2f81f7;stroke-width:2.6"/>`;
 
-  if (user.starDatesMissing) {
-    body += `<text class="muted" x="${R}" y="${H - 8}" text-anchor="end" style="font-size:12px">some star dates could not be loaded today</text>`;
-  }
   return svg(W, H, `Star history: ${totalStars} stars in total`, body);
 }
 
