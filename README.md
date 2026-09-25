@@ -55,9 +55,9 @@ A flying wing based on the Flite Test Versa Wing, with a laser-cut wooden bay fo
 
 ### [MazeSolver-Astar](https://github.com/chchaoo/MazeSolver-Astar)
 
-Guide the sheep home through a random maze in 40 steps. Stuck? The Help button asks A* for the way.
+Guide the sheep home through a random maze in 40 steps. Stuck? The Help button asks A\* for the way.
 
-<sub>带小羊走出随机迷宫，走不出去就让 A* 算法帮你找路。</sub>
+<sub>带小羊走出随机迷宫，走不出去就让 A\* 算法帮你找路。</sub>
 
 ![C++](https://img.shields.io/badge/C%2B%2B-EasyX-00599C) ![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2022-5C2D91) ![MIT](https://img.shields.io/badge/code-MIT-blue)
 
@@ -75,12 +75,41 @@ Guide the sheep home through a random maze in 40 steps. Stuck? The Help button a
 All plans are DXF files in millimetres, ready for a laser cutter or for printing at 1:1.<br>
 <sub>所有图纸都是以毫米为单位的 DXF 文件，可以直接激光切割，也可以 1:1 打印后手工切。</sub>
 
+## 🛤️ Build log · 制作历程
+
+<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/timeline.svg" width="100%" alt="Build log: Su-27 foam-board plane, A* maze game, modified Versa Wing, and sha256-folder-verify from v1 to v14">
+
+## 🚀 Latest releases · 最新发布
+
+<!-- releases:start -->
+- **[RCPlane-SU27](https://github.com/chchaoo/RCPlane-SU27)** · [Su-27 plans · EDF v4 + propeller v7 · 图纸](https://github.com/chchaoo/RCPlane-SU27/releases/tag/v7) · 2026-09-25
+- **[Modified-FTVersaWing](https://github.com/chchaoo/Modified-FTVersaWing)** · [Versa Wing plans v2 · 图纸 v2](https://github.com/chchaoo/Modified-FTVersaWing/releases/tag/v2) · 2026-09-25
+- **[sha256-folder-verify](https://github.com/chchaoo/sha256-folder-verify)** · [v14 · Skip files that cannot change the result](https://github.com/chchaoo/sha256-folder-verify/releases/tag/v14) · 2026-09-25
+<!-- releases:end -->
+
+## 📊 By the numbers · 数据
+
+<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stats.svg" width="100%" alt="Projects, stars, releases, forks, contributions and languages">
+
+<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stars.svg" width="100%" alt="Star history of all repositories">
+
 ## 🧰 What I work with · 常用工具
 
-![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=flat-square)
-![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=flat-square)
-![Batch](https://img.shields.io/badge/Windows%20Batch-4D4D4D?style=flat-square)
-![Visual Studio](https://img.shields.io/badge/Visual%20Studio-5C2D91?style=flat-square)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/chchaoo/chchaoo/main/assets/skills-dark.svg">
+  <img src="https://raw.githubusercontent.com/chchaoo/chchaoo/main/assets/skills-light.svg" height="48" alt="C++, PowerShell, Windows, Visual Studio, Git, GitHub, Markdown">
+</picture>
+
 ![Laser cutting](https://img.shields.io/badge/Laser%20cutting-DXF-e5484d?style=flat-square)
 ![3D printing](https://img.shields.io/badge/3D%20printing-STL-f0883e?style=flat-square)
 ![Foam board](https://img.shields.io/badge/Foam%20board-KT%E6%9D%BF-2ea44f?style=flat-square)
+![Hot glue](https://img.shields.io/badge/Hot%20glue-lots%20of%20it-d4a72c?style=flat-square)
+
+## 🐍 Contributions · 贡献
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/chchaoo/chchaoo/output/github-snake-dark.svg">
+  <img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/github-snake.svg" width="100%" alt="A snake eating the contribution graph">
+</picture>
+
+<p align="center"><sub>The charts on this page are drawn by <a href="scripts/build.mjs">a small script</a> in this repository, every day, from my public GitHub data. 本页图表由仓库里的脚本每天根据公开数据重新绘制。</sub></p>
