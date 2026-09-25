@@ -72,7 +72,7 @@ Guide the sheep home through a random maze in 40 steps. Stuck? The Help button a
 | [**Su-27**](https://github.com/chchaoo/RCPlane-SU27) | 5 mm foam board | 1100 / 1200 × 900 mm | ≈ ¥3 | ≈ 15 min | EDF · propeller |
 | [**FT Versa Wing, modified**](https://github.com/chchaoo/Modified-FTVersaWing) | 5 mm foam board + 2 mm plywood | 1200 × 900 mm | ≈ ¥5 | ≈ 30 min | tractor · pusher · FPV |
 
-All plans are DXF files in millimetres, ready for a laser cutter or for printing at 1:1.
+All plans are DXF files in millimetres, ready for a laser cutter or for printing at 1:1.<br>
 <sub>所有图纸都是以毫米为单位的 DXF 文件，可以直接激光切割，也可以 1:1 打印后手工切。</sub>
 
 ## 🧰 What I work with · 常用工具
