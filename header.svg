@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="250" viewBox="0 0 1200 250" role="img" aria-label="Hi, I'm chchaoo. I design foam-board RC planes and write small, careful tools. 做 KT 板航模，也写认真的小工具。">
+  <!-- Generated from profile.json by scripts/build.mjs. All motion is SMIL,
+       so every part runs on one clock: the trail is drawn exactly as fast
+       as the wing flies along it. -->
+  <defs>
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" class="dot"/></pattern>
+    <linearGradient id="fade" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="1"/>
+    </linearGradient>
+    <mask id="dotmask"><rect width="1200" height="250" fill="url(#fade)"/></mask>
+    <path id="route" d="M600 222C730 232 840 210 912 180S1000 126 1036 98"/>
+    <mask id="reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="250">
+      <path d="M600 222C730 232 840 210 912 180S1000 126 1036 98" fill="none" stroke="#fff" stroke-width="10" stroke-dasharray="560" stroke-dashoffset="560">
+        <animate attributeName="stroke-dashoffset" from="560" to="0" dur="2.4s" begin="0.2s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".45 0 .25 1"/>
+      </path>
+    </mask>
+    <clipPath id="type1"><rect x="50" y="120" height="40" width="0">
+      <animate attributeName="width" dur="1.89s" begin="0.7s" fill="freeze" calcMode="discrete" values="0;16;21;31;41;52;62;72;82;87;98;108;118;128;135;145;155;166;176;186;191;204;216;221;231;242;252;262;272;282;288;298;308;318;323;334;344;354;364;374;380;390;400;410;420;430;437;443;453;463;473;483;494;504;514;519;529;539;550;560;570;577;1200"/>
+    </rect></clipPath>
+    <clipPath id="type2"><rect x="50" y="160" height="36" width="0">
+      <animate attributeName="width" dur="1.01s" begin="2.69s" fill="freeze" calcMode="discrete" values="0;20;26;36;47;52;69;86;103;120;137;154;171;188;205;222;239;256;273;1200"/>
+    </rect></clipPath>
+  </defs>
+  <style>
+    .bg{fill:#f6f8fa;stroke:#d0d7de}.dot{fill:#d0d7de}
+    .h{fill:#1f2328;font:700 46px -apple-system,"Segoe UI","Noto Sans",Helvetica,Arial,"Microsoft YaHei","PingFang SC",sans-serif}
+    .s{fill:#59636e;font:19px -apple-system,"Segoe UI","Noto Sans",Helvetica,Arial,"Microsoft YaHei","PingFang SC",sans-serif}
+    .z{fill:#59636e;font:17px "Microsoft YaHei","PingFang SC","Noto Sans CJK SC","Noto Sans SC",sans-serif}
+    .acc{fill:#0969da}
+    .wing{fill:#2f81f7;fill-opacity:.07;stroke:#2f81f7;stroke-width:3.4;stroke-linejoin:round}
+    .hinge{stroke:#e5484d;stroke-width:3;stroke-dasharray:10 7;fill:none}
+    .bay{fill:#d4a72c;stroke:#9a6700;stroke-width:1.8}
+    .trail{stroke:#8c959f;stroke-width:1.6;stroke-dasharray:3 7;fill:none;stroke-linecap:round}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#161b22;stroke:#30363d}.dot{fill:#30363d}.h{fill:#e6edf3}.s,.z{fill:#9198a1}.acc{fill:#4493f8}
+      .wing{fill:#4493f8;stroke:#4493f8;fill-opacity:.09}.trail{stroke:#6e7681}
+    }
+  </style>
+  <rect class="bg" x="1" y="1" width="1198" height="248" rx="16"/>
+  <rect x="1" y="1" width="1198" height="248" rx="16" fill="url(#dots)" mask="url(#dotmask)"/>
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.8s" begin="0.1s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="translate" from="0 10" to="0 0" dur="0.8s" begin="0.1s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".2 .6 .3 1"/>
+    <text class="h" x="56" y="104">Hi, I'm <tspan class="acc">chchaoo</tspan></text>
+  </g>
+  <text class="s" x="58" y="148" clip-path="url(#type1)">I design foam-board RC planes and write small, careful tools.</text>
+  <text class="z" x="58" y="184" clip-path="url(#type2)">做 KT 板航模，也写认真的小工具。</text>
+  <use href="#route" class="trail" mask="url(#reveal)"/>
+  <g>
+    <animateMotion dur="2.4s" begin="0.2s" fill="freeze" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines=".45 0 .25 1"><mpath href="#route"/></animateMotion>
+    <g transform="scale(.5) rotate(90)">
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="3.2s" begin="2.6s" repeatCount="indefinite"/>
+        <path class="wing" d="M0 -6L-152 92L-152 118L-22 76L22 76L152 118L152 92Z"/>
+        <path class="hinge" d="M-146 104L-26 64M146 104L26 64"/>
+        <rect class="bay" x="-9" y="8" width="18" height="70" rx="3"/>
+        <path class="wing" d="M-152 92L-160 94L-160 120L-152 118M152 92L160 94L160 120L152 118" style="fill:none"/>
+      </g>
+    </g>
+  </g>
+</svg>
