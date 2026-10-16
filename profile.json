@@ -1,0 +1,188 @@
+{
+  "timezone": "America/Los_Angeles",
+  "banner": {
+    "greeting": "Hi, I'm",
+    "name": "chchaoo",
+    "tagline": "I design foam-board RC planes and write small, careful tools."
+  },
+  "interests": "✈️ Foam-board RC planes &nbsp;·&nbsp; 🛠️ Small tools for Windows &nbsp;·&nbsp; 🎮 The occasional game",
+  "sections": {
+    "projects": "📌 Projects",
+    "more_projects": "🗂️ More projects",
+    "planes": "✈️ Plane plans at a glance",
+    "timeline": "🛤️ Build log",
+    "releases": "🚀 Latest releases",
+    "numbers": "📊 By the numbers",
+    "contributions": "🐍 Contributions"
+  },
+  "charts": {
+    "stats_title": "{login} on GitHub",
+    "stars_title": "Star history",
+    "stars_subtitle": "stars on all {login} repositories",
+    "timeline_title": "Build log",
+    "timeline_subtitle": "what I have made, in order"
+  },
+  "footer": "The pictures on this page are redrawn every hour by <a href=\"scripts/build.mjs\">a small script</a> in this repository, from my public GitHub data.",
+  "projects": {
+    "sha256-folder-verify": {
+      "title": "Folder verify",
+      "kind": "tool",
+      "image": "assets/sha256-folder-verify.jpg",
+      "description": "Copied a folder? Prove the copy is byte-for-byte identical. One double-clickable `.bat`: SHA-256 of every file, per-file progress, resumable.",
+      "badges": [
+        [
+          "Windows",
+          "",
+          "0078D6"
+        ],
+        [
+          "PowerShell",
+          "",
+          "5391FE"
+        ]
+      ]
+    },
+    "RCPlane-SU27": {
+      "title": "Su-27 foam-board plane",
+      "kind": "plane",
+      "image": "assets/su27.jpg",
+      "description": "A Su-27 cut from one sheet of 5 mm foam board, ducted-fan or propeller version. About ¥3 of board and 15 minutes to build.",
+      "badges": [
+        [
+          "plans",
+          "DXF",
+          "e5484d"
+        ],
+        [
+          "3D part",
+          "STL",
+          "f0883e"
+        ],
+        [
+          "CC BY-NC-SA",
+          "4.0",
+          "lightgrey"
+        ]
+      ],
+      "release_titles": {
+        "v7": "Su-27 plans · EDF v4 + propeller v7"
+      }
+    },
+    "Modified-FTVersaWing": {
+      "title": "Versa Wing, modified",
+      "kind": "plane",
+      "image": "assets/versa-wing.jpg",
+      "description": "A flying wing based on the Flite Test Versa Wing, with a laser-cut wooden bay for FPV gear. Tractor or pusher.",
+      "badges": [
+        [
+          "plans",
+          "DXF",
+          "e5484d"
+        ],
+        [
+          "FPV",
+          "ready",
+          "2f81f7"
+        ],
+        [
+          "CC BY-NC-SA",
+          "4.0",
+          "lightgrey"
+        ]
+      ],
+      "release_titles": {
+        "v2": "Versa Wing plans v2"
+      }
+    },
+    "MazeSolver-Astar": {
+      "title": "A* maze game",
+      "kind": "game",
+      "image": "assets/maze.jpg",
+      "description": "Guide the sheep home through a random maze in 40 steps. Stuck? The Help button asks A\\* for the way.",
+      "badges": [
+        [
+          "EasyX",
+          "",
+          "00599C"
+        ],
+        [
+          "Visual Studio",
+          "2022",
+          "5C2D91"
+        ]
+      ]
+    }
+  },
+  "planes": {
+    "columns": [
+      "Material",
+      "Sheet",
+      "Board cost",
+      "Build time",
+      "Versions"
+    ],
+    "rows": [
+      {
+        "repo": "RCPlane-SU27",
+        "name": "Su-27",
+        "cells": [
+          "5 mm foam board",
+          "1100 / 1200 × 900 mm",
+          "≈ ¥3",
+          "≈ 15 min",
+          "EDF · propeller"
+        ]
+      },
+      {
+        "repo": "Modified-FTVersaWing",
+        "name": "FT Versa Wing, modified",
+        "cells": [
+          "5 mm foam board + 2 mm plywood",
+          "1200 × 900 mm",
+          "≈ ¥5",
+          "≈ 30 min",
+          "tractor · pusher · FPV"
+        ]
+      }
+    ],
+    "note": "All plans are DXF files in millimetres, ready for a laser cutter or for printing at 1:1."
+  },
+  "timeline": {
+    "max": 12,
+    "hide": [
+      "created:sha256-folder-verify"
+    ],
+    "milestones": [
+      {
+        "date": "2026-09-12",
+        "label": "Folder verify v2",
+        "kind": "tool",
+        "detail": "Drag-and-drop batch script"
+      },
+      {
+        "date": "2026-09-13",
+        "label": "v3 PowerShell engine",
+        "kind": "tool",
+        "detail": "Correct results with PowerShell"
+      },
+      {
+        "date": "2026-09-18",
+        "label": "v7 disk-aware reads",
+        "kind": "tool",
+        "detail": "Scheduling by physical disk"
+      },
+      {
+        "date": "2026-09-24",
+        "label": "v12 per-file progress",
+        "kind": "tool",
+        "detail": "Progress for each file"
+      }
+    ]
+  },
+  "project_descriptions": {
+    "rime-bepemefeve": "Historical Chinese pronunciation dictionaries and Rime input schemes for Old National Pronunciation."
+  },
+  "discovery": {
+    "featured_count": 6
+  }
+}
