@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" width="900" height="450" role="img" aria-label="lx04-flashing-guide project preview">
+<style>.bg{fill:#f6f8fa;stroke:#d0d7de}.text{fill:#1f2328}.muted{fill:#59636e}.accent{fill:#0969da}@media(prefers-color-scheme:dark){.bg{fill:#161b22;stroke:#30363d}.text{fill:#e6edf3}.muted{fill:#9198a1}.accent{fill:#58a6ff}}text{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif}</style>
+<rect class="bg" x="1" y="1" width="898" height="448" rx="18"/>
+<rect x="1" y="1" width="898" height="8" rx="4" fill="#2f81f7"/>
+<text class="muted" x="48" y="64" font-size="20">chchaoo / public project</text>
+<text class="text" x="48" y="132" font-size="34" font-weight="700"><tspan x="48" dy="0">lx04-flashing-guide</tspan></text>
+<text class="muted" x="48" y="238" font-size="23"><tspan x="48" dy="0">Step-by-step LX04 to X04G flashing guide, launcher and</tspan><tspan x="48" dy="30">navigation setup.</tspan></text>
+<path d="M48 345H852" stroke="#8c959f" stroke-opacity=".3"/>
+<text class="accent" x="48" y="397" font-size="22">Documentation</text>
+<text class="muted" x="530" y="397" font-size="22">Stars 0 · Forks 0</text>
+</svg>
