@@ -101,9 +101,9 @@ All plans are DXF files in millimetres, ready for a laser cutter or for printing
 
 ## 📊 By the numbers
 
-<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stats.svg?v=08e405b673ef" width="100%" alt="Projects, stars, releases, forks, contributions and languages">
+<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stats.svg?v=cba87e050431" width="100%" alt="Projects, stars, releases, forks, contributions and languages">
 
-<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stars.svg?v=dbc8b68bb45a" width="100%" alt="Star history">
+<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stars.svg?v=e9889b2f141e" width="100%" alt="Star history">
 
 ## 🐍 Contributions
 
