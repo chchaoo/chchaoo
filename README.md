@@ -103,7 +103,7 @@ All plans are DXF files in millimetres, ready for a laser cutter or for printing
 
 <img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stats.svg?v=389ad5747611" width="100%" alt="Projects, stars, releases, forks, contributions and languages">
 
-<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stars.svg?v=909fedfa7e78" width="100%" alt="Star history">
+<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stars.svg?v=f35fe5629b8c" width="100%" alt="Star history">
 
 ## 🐍 Contributions
 
