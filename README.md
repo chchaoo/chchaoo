@@ -34,7 +34,7 @@ Step-by-step LX04 to X04G flashing guide, launcher and navigation setup.
 ### [RCPlane-SU27](https://github.com/chchaoo/RCPlane-SU27)
 
 Su-27 RC plane from one sheet of 5 mm foam board: DXF laser-cut plans, EDF and propeller versions, 15-minute build.
-![plans DXF](https://img.shields.io/badge/plans-DXF-e5484d) ![3D part STL](https://img.shields.io/badge/3D%20part-STL-f0883e) ![CC BY-NC-SA 4.0](https://img.shields.io/badge/CC%20BY--NC--SA-4.0-lightgrey) ![stars 0](https://img.shields.io/badge/stars-0-e3b341) ![forks 1](https://img.shields.io/badge/forks-1-8c959f)
+![plans DXF](https://img.shields.io/badge/plans-DXF-e5484d) ![3D part STL](https://img.shields.io/badge/3D%20part-STL-f0883e) ![CC BY-NC-SA 4.0](https://img.shields.io/badge/CC%20BY--NC--SA-4.0-lightgrey) ![release v7](https://img.shields.io/badge/release-v7-2ea44f) ![stars 0](https://img.shields.io/badge/stars-0-e3b341) ![forks 1](https://img.shields.io/badge/forks-1-8c959f)
 
 </td>
 <td width="50%" valign="top">
@@ -44,7 +44,7 @@ Su-27 RC plane from one sheet of 5 mm foam board: DXF laser-cut plans, EDF and p
 ### [Modified-FTVersaWing](https://github.com/chchaoo/Modified-FTVersaWing)
 
 Modified Flite Test Versa Wing: foam-board flying wing with a laser-cut wooden FPV bay, DXF plans.
-![plans DXF](https://img.shields.io/badge/plans-DXF-e5484d) ![FPV ready](https://img.shields.io/badge/FPV-ready-2f81f7) ![CC BY-NC-SA 4.0](https://img.shields.io/badge/CC%20BY--NC--SA-4.0-lightgrey) ![stars 0](https://img.shields.io/badge/stars-0-e3b341) ![forks 1](https://img.shields.io/badge/forks-1-8c959f)
+![plans DXF](https://img.shields.io/badge/plans-DXF-e5484d) ![FPV ready](https://img.shields.io/badge/FPV-ready-2f81f7) ![CC BY-NC-SA 4.0](https://img.shields.io/badge/CC%20BY--NC--SA-4.0-lightgrey) ![release v2](https://img.shields.io/badge/release-v2-2ea44f) ![stars 0](https://img.shields.io/badge/stars-0-e3b341) ![forks 1](https://img.shields.io/badge/forks-1-8c959f)
 
 </td>
 </tr>
@@ -56,7 +56,7 @@ Modified Flite Test Versa Wing: foam-board flying wing with a laser-cut wooden F
 ### [sha256-folder-verify](https://github.com/chchaoo/sha256-folder-verify)
 
 Verify that a copied folder is byte-for-byte identical to the original. One double-clickable .bat for Windows: SHA-256 of every file, full tree comparison, resumable, per-file progress.
-![Batchfile](https://img.shields.io/badge/Batchfile-C1F12E) ![Windows](https://img.shields.io/badge/Windows-0078D6) ![PowerShell](https://img.shields.io/badge/PowerShell-5391FE) ![license MIT](https://img.shields.io/badge/license-MIT-blue) ![stars 0](https://img.shields.io/badge/stars-0-e3b341) ![forks 0](https://img.shields.io/badge/forks-0-8c959f)
+![Batchfile](https://img.shields.io/badge/Batchfile-C1F12E) ![Windows](https://img.shields.io/badge/Windows-0078D6) ![PowerShell](https://img.shields.io/badge/PowerShell-5391FE) ![release v14](https://img.shields.io/badge/release-v14-2ea44f) ![license MIT](https://img.shields.io/badge/license-MIT-blue) ![stars 0](https://img.shields.io/badge/stars-0-e3b341) ![forks 0](https://img.shields.io/badge/forks-0-8c959f)
 
 </td>
 <td width="50%" valign="top">
@@ -66,7 +66,7 @@ Verify that a copied folder is byte-for-byte identical to the original. One doub
 ### [external-hdd-keepalive](https://github.com/chchaoo/external-hdd-keepalive)
 
 Windows tools for external HDD disconnects: power settings, backup, restore and read-only keep-alive.
-![Batchfile](https://img.shields.io/badge/Batchfile-C1F12E) ![license MIT](https://img.shields.io/badge/license-MIT-blue) ![stars 0](https://img.shields.io/badge/stars-0-e3b341) ![forks 0](https://img.shields.io/badge/forks-0-8c959f)
+![Batchfile](https://img.shields.io/badge/Batchfile-C1F12E) ![release v1.0.0](https://img.shields.io/badge/release-v1.0.0-2ea44f) ![license MIT](https://img.shields.io/badge/license-MIT-blue) ![stars 0](https://img.shields.io/badge/stars-0-e3b341) ![forks 0](https://img.shields.io/badge/forks-0-8c959f)
 
 </td>
 </tr>
@@ -83,13 +83,13 @@ Automatically ranked by stars, then forks, then latest update.
 
 ## 🛤️ Build log
 
-<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/timeline.6e51ead0b9d2.svg" width="100%" alt="Build log">
+<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/timeline.0a1b90b157d8.svg" width="100%" alt="Build log">
 
 ## 📊 By the numbers
 
-<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stats.f8eb48f51da8.svg" width="100%" alt="Projects, stars, releases, forks, contributions and languages">
+<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stats.864ececaae52.svg" width="100%" alt="Projects, stars, releases, forks, contributions and languages">
 
-<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stars.05b102ea0955.svg" width="100%" alt="Star history">
+<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stars.1cdebb264c28.svg" width="100%" alt="Star history">
 
 ## 🐍 Contributions
 
