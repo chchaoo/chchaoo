@@ -89,7 +89,7 @@ Automatically ranked by stars, then forks, then latest update.
 
 <img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stats.864ececaae52.svg" width="100%" alt="Projects, stars, releases, forks, contributions and languages">
 
-<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stars.1cdebb264c28.svg" width="100%" alt="Star history">
+<img src="https://raw.githubusercontent.com/chchaoo/chchaoo/output/stars.423256534f36.svg" width="100%" alt="Star history">
 
 ## 🐍 Contributions
 
