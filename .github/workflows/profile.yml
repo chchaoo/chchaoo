@@ -1,0 +1,98 @@
+name: Profile
+
+# Rebuilds the profile page from profile.json and public GitHub data:
+#   - README.md (project cards are ranked by stars, forks and latest update)
+#   - the animated banner and the hand-drawn charts (scripts/build.mjs)
+#   - the contribution snake (Platane/snk)
+#
+# The pictures are published to the `output` branch, which is replaced on
+# every run, so they never pile up in the history of `main`. README.md is
+# committed only when it actually changed.
+
+on:
+  schedule:
+    # Discover new repositories and refresh rankings every hour.
+    - cron: "17 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "profile.json"
+      - "scripts/**"
+      - "assets/**"
+      - ".github/workflows/profile.yml"
+      - "EDITING.md"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile
+  cancel-in-progress: false
+
+jobs:
+  page:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Check project discovery and ranking
+        run: node --test scripts/projects.test.mjs
+
+      - name: Build the page and the pictures
+        run: node scripts/build.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Draw the contribution snake
+        uses: Platane/snk@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/github-snake.svg
+            dist/github-snake-dark.svg?palette=github-dark
+
+      - name: Check whether a newer profile change has arrived
+        id: current
+        run: |
+          latest=$(git ls-remote origin refs/heads/main | cut -f1)
+          if [ "$latest" = "$GITHUB_SHA" ]; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "A newer profile commit exists; its workflow will publish the page."
+          fi
+
+      - name: Publish the pictures to the output branch
+        if: steps.current.outputs.publish == 'true'
+        uses: crazy-max/ghaction-github-pages@v5
+        with:
+          target_branch: output
+          build_dir: dist
+          jekyll: false
+          commit_message: Redraw profile pictures
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit README.md if it changed
+        if: steps.current.outputs.publish == 'true'
+        run: |
+          if git diff --quiet -- README.md; then
+            echo "README.md unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update the profile page" -- README.md
+          if ! git push; then
+            latest=$(git ls-remote origin refs/heads/main | cut -f1)
+            if [ "$latest" != "$GITHUB_SHA" ]; then
+              echo "A newer profile commit arrived during publication; its workflow will regenerate the page."
+              exit 0
+            fi
+            exit 1
+          fi
