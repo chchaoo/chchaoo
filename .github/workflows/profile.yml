@@ -1,0 +1,77 @@
+name: Refresh profile
+
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"
+    - cron: "37 0 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "profile.json"
+      - "scripts/**"
+      - ".github/workflows/profile.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Test generator
+        run: python3 -m unittest discover -s scripts -p "test_*.py" -v
+      - name: Refresh public project metadata
+        run: python3 scripts/build.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish only when content changes
+        run: |
+          git add README.md assets/metrics/
+          if git diff --cached --quiet; then
+            echo "Profile is already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Sync repository descriptions"
+          git push origin HEAD:main
+  snake:
+    if: github.event_name != 'schedule' || github.event.schedule == '37 0 * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Draw contribution snake
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: chchaoo
+          outputs: |
+            dist/github-snake.svg
+            dist/github-snake-dark.svg?palette=github-dark
+      - name: Compact snake canvas and progress bar
+        run: python3 scripts/compact_snake.py dist/github-snake.svg dist/github-snake-dark.svg
+      - name: Check out existing image branch
+        uses: actions/checkout@v7
+        with:
+          ref: output
+          path: dist/snake-output
+      - name: Update snake images
+        run: |
+          cp dist/github-snake.svg dist/github-snake-dark.svg dist/snake-output/
+          cd dist/snake-output
+          if git diff --quiet -- github-snake.svg github-snake-dark.svg; then
+            echo "Snake images are already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add github-snake.svg github-snake-dark.svg
+          git commit -m "Refresh contribution snake"
+          git push origin HEAD:output
