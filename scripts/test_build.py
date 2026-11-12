@@ -267,8 +267,7 @@ class ProfileTests(unittest.TestCase):
                     build.main()
             self.assertEqual(readme.read_text(encoding='utf-8'), 'existing profile')
             self.assertEqual(sorted(p.name for p in root.iterdir()),
-                             ['README.md', 'assets', 'fixture.json', 'profile.json'])
-            self.assertEqual(list((root / 'assets').iterdir()), [])
+                             ['README.md', 'fixture.json', 'profile.json'])
 
     def test_foreign_repo_with_same_name_does_not_mark_owned_project(self):
         self.data['pinned'] = ['someone-else/gpt-notebook']
