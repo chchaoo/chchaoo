@@ -237,6 +237,39 @@ class ProfileTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     build.validate_repos(invalid)
 
+    def test_main_does_not_rewrite_unchanged_files(self):
+        with tempfile.TemporaryDirectory(dir=build.ROOT) as directory:
+            root = Path(directory)
+            (root / 'profile.json').write_text(json.dumps(self.config), encoding='utf-8')
+            fixture = root / 'fixture.json'
+            fixture.write_text(json.dumps(self.data), encoding='utf-8')
+            with patch.object(build, 'ROOT', root), patch.object(
+                    sys, 'argv', ['build.py', '--fixture', str(fixture)]):
+                build.main()
+                expected = (root / 'README.md').read_bytes()
+                with patch.object(build.os, 'replace', side_effect=AssertionError(
+                        'Unchanged files must not be rewritten')):
+                    build.main()
+                self.assertEqual((root / 'README.md').read_bytes(), expected)
+
+    def test_failed_atomic_replace_preserves_existing_readme(self):
+        with tempfile.TemporaryDirectory(dir=build.ROOT) as directory:
+            root = Path(directory)
+            (root / 'profile.json').write_text(json.dumps(self.config), encoding='utf-8')
+            fixture = root / 'fixture.json'
+            fixture.write_text(json.dumps(self.data), encoding='utf-8')
+            readme = root / 'README.md'
+            readme.write_text('existing profile', encoding='utf-8')
+            with patch.object(build, 'ROOT', root), patch.object(
+                    sys, 'argv', ['build.py', '--fixture', str(fixture)]), patch.object(
+                    build.os, 'replace', side_effect=OSError('simulated disk error')):
+                with self.assertRaisesRegex(OSError, 'simulated disk error'):
+                    build.main()
+            self.assertEqual(readme.read_text(encoding='utf-8'), 'existing profile')
+            self.assertEqual(sorted(p.name for p in root.iterdir()),
+                             ['README.md', 'assets', 'fixture.json', 'profile.json'])
+            self.assertEqual(list((root / 'assets').iterdir()), [])
+
     def test_foreign_repo_with_same_name_does_not_mark_owned_project(self):
         self.data['pinned'] = ['someone-else/gpt-notebook']
         self.assertNotIn(' ⭐ ', build.render(self.config, self.data))
