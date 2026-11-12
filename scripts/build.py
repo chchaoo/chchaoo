@@ -177,7 +177,6 @@ def repo_url(repo, config):
 
 
 def ordered(repos, config, pinned=()):
-    rank = {name: i for i, name in enumerate(config["projects"])}
     pin_rank = {name.lower(): i for i, name in enumerate(pinned)}
     return sorted(repos, key=lambda r: (
         pin_rank.get(f'{config["login"]}/{r["name"]}'.lower(), len(pin_rank)),
@@ -185,7 +184,7 @@ def ordered(repos, config, pinned=()):
         -r.get("forks_count", 0),
         -datetime.fromisoformat(r["updated_at"].replace("Z", "+00:00")).timestamp()
         if r.get("updated_at") else 0,
-        rank.get(r["name"], len(rank)), r["name"].lower()))
+        r["name"].lower()))
 
 
 def short_count(count):
