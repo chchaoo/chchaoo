@@ -176,8 +176,8 @@ class ProfileTests(unittest.TestCase):
             fixture = root / 'fixture.json'
             fixture.write_text(json.dumps(self.data), encoding='utf-8')
             original = build.metrics_svg
-            with patch.object(build, 'ROOT', root), \\
-                 patch.object(sys, 'argv', ['build.py', '--fixture', str(fixture)]), \\
+            with patch.object(build, 'ROOT', root), \
+                 patch.object(sys, 'argv', ['build.py', '--fixture', str(fixture)]), \
                  patch.object(build, 'metrics_svg', wraps=original) as svg:
                 build.main()
             self.assertEqual(svg.call_count, len(self.repos))
