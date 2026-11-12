@@ -13,8 +13,13 @@ import build
 class ProfileTests(unittest.TestCase):
     def setUp(self):
         self.config = json.loads((build.ROOT / 'profile.json').read_text(encoding='utf-8'))
+        names = [
+            'gpt-notebook', 'RCPlane-SU27', 'sha256-folder-verify',
+            'external-hdd-keepalive', 'tronclass-resource-download-fixed',
+            'Modified-FTVersaWing', 'MazeSolver-Astar', 'lx04-flashing-guide',
+        ]
         self.repos = [{'name': n, 'description': 'Useful project', 'topics': []}
-                      for n in self.config['projects']]
+                      for n in names]
         self.data = {'repos': self.repos, 'releases': [], 'photos': {
             'RCPlane-SU27': 'https://raw.githubusercontent.com/chchaoo/RCPlane-SU27/main/docs/images/photo-2.jpg',
             'Modified-FTVersaWing': 'https://raw.githubusercontent.com/chchaoo/Modified-FTVersaWing/main/docs/images/photo-1.jpg'}}
