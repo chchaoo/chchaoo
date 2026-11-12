@@ -184,6 +184,35 @@ class ProfileTests(unittest.TestCase):
             self.assertIn('### Hi, I’m chchaoo',
                           (root / 'README.md').read_text(encoding='utf-8'))
 
+    def test_http_403_does_not_discard_authorization(self):
+        import io
+        import urllib.error
+        from unittest.mock import MagicMock
+        error = urllib.error.HTTPError(
+            'https://api.github.com/test', 403, 'rate limited', {}, io.BytesIO())
+        with patch.dict('os.environ', {'GITHUB_TOKEN': 'test-token'}), \
+             patch.object(build.urllib.request, 'urlopen', side_effect=error) as urlopen:
+            with self.assertRaises(urllib.error.HTTPError):
+                build.api('/test')
+        urlopen.assert_called_once()
+        self.assertEqual(urlopen.call_args.args[0].get_header('Authorization'),
+                         'Bearer test-token')
+
+    def test_http_500_retries_then_succeeds(self):
+        import io
+        import urllib.error
+        from unittest.mock import MagicMock
+        error = urllib.error.HTTPError(
+            'https://api.github.com/test', 500, 'server error', {}, io.BytesIO())
+        response = MagicMock()
+        response.__enter__.return_value = io.BytesIO(b'{"ok": true}')
+        with patch.object(build.urllib.request, 'urlopen',
+                          side_effect=[error, response]) as urlopen, \
+             patch.object(build.time, 'sleep') as sleep:
+            self.assertEqual(build.api('/test'), {'ok': True})
+        self.assertEqual(urlopen.call_count, 2)
+        sleep.assert_called_once_with(1)
+
     def test_foreign_repo_with_same_name_does_not_mark_owned_project(self):
         self.data['pinned'] = ['someone-else/gpt-notebook']
         self.assertNotIn(' ⭐ ', build.render(self.config, self.data))

@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import re
+import tempfile
 import time
 import urllib.error
 import urllib.parse
@@ -35,9 +36,11 @@ def api(path, data=None):
             with urllib.request.urlopen(request, timeout=30) as response:
                 return json.load(response)
         except urllib.error.HTTPError as error:
-            if error.code in (401, 403) and "Authorization" in headers and data is None:
+            if error.code == 401 and "Authorization" in headers and data is None:
                 del headers["Authorization"]
                 continue
+            if error.code in (403, 429):
+                raise  # Do not bypass rate limits by dropping authentication.
             if error.code < 500 or attempt == 2:
                 raise
         except (urllib.error.URLError, TimeoutError):
@@ -292,7 +295,16 @@ def main():
         path = ROOT / name
         path.parent.mkdir(parents=True, exist_ok=True)
         if not path.exists() or path.read_text(encoding="utf-8") != content:
-            path.write_text(content, encoding="utf-8", newline="\n")
+            temp_name = None
+            try:
+                with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", newline="\n",
+                                                 dir=path.parent, delete=False) as temp:
+                    temp_name = temp.name
+                    temp.write(content)
+                os.replace(temp_name, path)
+            finally:
+                if temp_name is not None and os.path.exists(temp_name):
+                    os.unlink(temp_name)
     if args.save_data:
         args.save_data.parent.mkdir(parents=True, exist_ok=True)
         args.save_data.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
