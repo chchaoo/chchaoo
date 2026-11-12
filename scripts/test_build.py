@@ -118,6 +118,40 @@ class ProfileTests(unittest.TestCase):
         names = [r['name'] for r in build.ordered(self.repos, self.config, pins)]
         self.assertEqual(names[:2], ['RCPlane-SU27', 'Modified-FTVersaWing'])
 
+    def test_sort_priority_pin_stars_forks_updated_at_name(self):
+        def repo(name, stars, forks, updated):
+            return {'name': name, 'stargazers_count': stars,
+                    'forks_count': forks, 'updated_at': updated}
+
+        old = '2026-01-01T00:00:00Z'
+        new = '2026-02-01T00:00:00Z'
+        repos = [
+            repo('alpha', 1, 1, old),
+            repo('beta', 1, 1, new),
+            repo('gamma', 1, 2, old),
+            repo('delta', 2, 0, old),
+            repo('echo', 1, 1, new),
+            repo('pinned-low', 0, 0, old),
+            repo('pinned-high', 99, 99, new),
+        ]
+        pins = ['chchaoo/pinned-low', 'chchaoo/pinned-high']
+        names = [r['name'] for r in build.ordered(repos, self.config, pins)]
+        self.assertEqual(names, [
+            'pinned-low', 'pinned-high', 'delta', 'gamma',
+            'beta', 'echo', 'alpha',
+        ])
+        self.assertEqual(names, [r['name'] for r in
+                         build.ordered(list(reversed(repos)), self.config, pins)])
+
+    def test_missing_updated_at_sorts_after_present_timestamp(self):
+        repos = [
+            {'name': 'missing', 'stargazers_count': 0, 'forks_count': 0},
+            {'name': 'dated', 'stargazers_count': 0, 'forks_count': 0,
+             'updated_at': '2026-01-01T00:00:00Z'},
+        ]
+        self.assertEqual([r['name'] for r in build.ordered(repos, self.config)],
+                         ['dated', 'missing'])
+
     def test_foreign_repo_with_same_name_does_not_mark_owned_project(self):
         self.data['pinned'] = ['someone-else/gpt-notebook']
         self.assertNotIn(' ⭐ ', build.render(self.config, self.data))
