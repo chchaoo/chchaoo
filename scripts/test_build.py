@@ -213,6 +213,30 @@ class ProfileTests(unittest.TestCase):
         self.assertEqual(urlopen.call_count, 2)
         sleep.assert_called_once_with(1)
 
+    def test_configuration_validation(self):
+        build.validate_config(self.config)
+        for invalid in (
+            None, {}, {'login': '', 'intro': '', 'aircraft_projects': []},
+            {'login': 'chchaoo', 'intro': None, 'aircraft_projects': []},
+            {'login': 'chchaoo', 'intro': '', 'aircraft_projects': 'plane'},
+            {'login': 'chchaoo', 'intro': '', 'aircraft_projects': ['a', 'a']},
+        ):
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(ValueError):
+                    build.validate_config(invalid)
+
+    def test_repository_response_validation(self):
+        build.validate_repos(self.repos)
+        for invalid in (
+            None, {}, [None], [{'description': 'missing name'}],
+            [{'name': 'bad-stars', 'stargazers_count': -1}],
+            [{'name': 'bad-forks', 'forks_count': '1'}],
+            [{'name': 'bad-time', 'updated_at': 'not-a-date'}],
+        ):
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(ValueError):
+                    build.validate_repos(invalid)
+
     def test_foreign_repo_with_same_name_does_not_mark_owned_project(self):
         self.data['pinned'] = ['someone-else/gpt-notebook']
         self.assertNotIn(' ⭐ ', build.render(self.config, self.data))

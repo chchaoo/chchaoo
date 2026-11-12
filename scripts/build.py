@@ -62,6 +62,43 @@ def pages(path):
     raise RuntimeError("Pagination limit exceeded; leaving the profile unchanged")
 
 
+def validate_config(config):
+    """Reject malformed configuration before fetching or replacing profile files."""
+    if not isinstance(config, dict):
+        raise ValueError("profile.json must contain a JSON object")
+    if not isinstance(config.get("login"), str) or not config["login"].strip():
+        raise ValueError("profile.json: login must be a nonempty string")
+    if not isinstance(config.get("intro"), str):
+        raise ValueError("profile.json: intro must be a string")
+    aircraft = config.get("aircraft_projects")
+    if not isinstance(aircraft, list) or any(
+            not isinstance(name, str) or not name.strip() for name in aircraft):
+        raise ValueError("profile.json: aircraft_projects must be a list of names")
+    if len(aircraft) != len(set(aircraft)):
+        raise ValueError("profile.json: aircraft_projects contains duplicate names")
+
+
+def validate_repos(repos):
+    """Reject incomplete API responses rather than publishing a partial profile."""
+    if not isinstance(repos, list):
+        raise ValueError("GitHub repositories response must be a list")
+    for repo in repos:
+        if not isinstance(repo, dict) or not isinstance(repo.get("name"), str) or not repo["name"]:
+            raise ValueError("GitHub repository is missing its name")
+        for field in ("stargazers_count", "forks_count"):
+            value = repo.get(field, 0)
+            if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+                raise ValueError(f"Invalid {field} for repository {repo['name']}")
+        updated = repo.get("updated_at")
+        if updated is not None:
+            if not isinstance(updated, str):
+                raise ValueError(f"Invalid updated_at for repository {repo['name']}")
+            try:
+                datetime.fromisoformat(updated.replace("Z", "+00:00"))
+            except ValueError as error:
+                raise ValueError(f"Invalid updated_at for repository {repo['name']}") from error
+
+
 def eligible(repos, login):
     return [r for r in repos if not r.get("private") and not r.get("archived")
             and r["name"].lower() != login.lower()]
@@ -69,7 +106,9 @@ def eligible(repos, login):
 
 def discover(config):
     login = urllib.parse.quote(config["login"], safe="")
-    repos = eligible(pages(f"/users/{login}/repos?type=owner&sort=full_name"), config["login"])
+    all_repos = pages(f"/users/{login}/repos?type=owner&sort=full_name")
+    validate_repos(all_repos)
+    repos = eligible(all_repos, config["login"])
     if not repos:
         raise ValueError("No public projects returned; leaving the profile unchanged")
     photos = {}
@@ -284,7 +323,9 @@ def main():
     parser.add_argument("--save-data", type=Path)
     args = parser.parse_args()
     config = json.loads((ROOT / "profile.json").read_text(encoding="utf-8"))
+    validate_config(config)
     data = json.loads(args.fixture.read_text(encoding="utf-8")) if args.fixture else discover(config)
+    validate_repos(data["repos"])
     # Complete discovery and rendering before replacing the existing page.
     active_repos = eligible(data["repos"], config["login"])
     metric_svgs = {repo["name"]: metrics_svg(repo) for repo in active_repos}
