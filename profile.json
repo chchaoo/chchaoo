@@ -1,16 +1,6 @@
 {
   "login": "chchaoo",
   "intro": "Learning by building. I make software to solve everyday problems and share what I learn along the way.",
-  "projects": [
-    "gpt-notebook",
-    "RCPlane-SU27",
-    "sha256-folder-verify",
-    "external-hdd-keepalive",
-    "tronclass-resource-download-fixed",
-    "Modified-FTVersaWing",
-    "MazeSolver-Astar",
-    "lx04-flashing-guide"
-  ],
   "aircraft_projects": [
     "RCPlane-SU27",
     "Modified-FTVersaWing"
