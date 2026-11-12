@@ -152,6 +152,38 @@ class ProfileTests(unittest.TestCase):
         self.assertEqual([r['name'] for r in build.ordered(repos, self.config)],
                          ['dated', 'missing'])
 
+    def test_cached_metrics_render_matches_uncached_output(self):
+        for index, repo in enumerate(self.repos):
+            repo['stargazers_count'] = index * 137
+            repo['forks_count'] = index
+        cached = {repo['name']: build.metrics_svg(repo) for repo in self.repos}
+        self.assertEqual(build.render(self.config, self.data),
+                         build.render(self.config, self.data, cached))
+        for repo in self.repos:
+            self.assertEqual(build.metrics_source(repo),
+                             build.metrics_source(repo, cached[repo['name']]))
+
+    def test_invalid_pinned_api_payload_is_rejected(self):
+        invalid = {'data': {'user': {'pinnedItems': {'nodes': [None]}}}}
+        with patch.object(build, 'api', return_value=invalid):
+            with self.assertRaisesRegex(ValueError, 'Invalid pinned'):
+                build.pinned_projects('chchaoo')
+
+    def test_metrics_svg_generated_once_per_repository_in_main(self):
+        with tempfile.TemporaryDirectory(dir=build.ROOT) as directory:
+            root = Path(directory)
+            (root / 'profile.json').write_text(json.dumps(self.config), encoding='utf-8')
+            fixture = root / 'fixture.json'
+            fixture.write_text(json.dumps(self.data), encoding='utf-8')
+            original = build.metrics_svg
+            with patch.object(build, 'ROOT', root), \\
+                 patch.object(sys, 'argv', ['build.py', '--fixture', str(fixture)]), \\
+                 patch.object(build, 'metrics_svg', wraps=original) as svg:
+                build.main()
+            self.assertEqual(svg.call_count, len(self.repos))
+            self.assertIn('### Hi, I’m chchaoo',
+                          (root / 'README.md').read_text(encoding='utf-8'))
+
     def test_foreign_repo_with_same_name_does_not_mark_owned_project(self):
         self.data['pinned'] = ['someone-else/gpt-notebook']
         self.assertNotIn(' ⭐ ', build.render(self.config, self.data))
